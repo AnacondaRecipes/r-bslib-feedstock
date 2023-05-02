@@ -15,17 +15,21 @@ source:
 build:
   merge_build_host: true  # [win]
   number: 0
-  noarch: generic
+  # Only building r packages for win64, linux64, osx64
+  skip: True # [aarch64 or s390x or ppc64le or arm64]
+  #noarch: generic
   rpaths:
     - lib/R/lib/
     - lib/
+
+  
 
 requirements:
   build:
     - {{ posix }}zip               # [win]
     - cross-r-base {{ r_base }}    # [build_platform != target_platform]
   host:
-    - r-base
+    - r-base  {{ r_version }}
     - r-base64enc
     - r-cachem
     - r-htmltools >=0.5.4
@@ -36,7 +40,7 @@ requirements:
     - r-rlang
     - r-sass >=0.4.0
   run:
-    - r-base
+    - r-base  {{ r_version }}
     - r-base64enc
     - r-cachem
     - r-htmltools >=0.5.4
@@ -65,4 +69,4 @@ about:
 
 extra:
   recipe-maintainers:
-    - conda-forge/r
+    - ianaobi
